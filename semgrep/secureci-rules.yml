@@ -1,0 +1,28 @@
+rules:
+  # Direct evaluation can execute attacker-controlled JavaScript.
+  - id: secureci-no-eval
+    languages: [javascript, typescript]
+    severity: ERROR
+    message: Avoid eval(); use structured parsing or explicit functions instead.
+    pattern: eval(...)
+
+  # Heuristic only: literal strings assigned to selected credential-like names.
+  # It can flag placeholders and misses secrets with other names or structures.
+  - id: secureci-hardcoded-secret
+    languages: [javascript, typescript]
+    severity: WARNING
+    message: Possible hardcoded credential. Review and use an environment variable or secret store.
+    patterns:
+      - pattern: $NAME = "..."
+      - metavariable-regex:
+          metavariable: $NAME
+          regex: '(?i)^(password|passwd|secret|api_?key|access_?token|auth_?token)$'
+
+  # Disabling certificate checks removes TLS server identity verification.
+  - id: secureci-disabled-tls-verification
+    languages: [javascript, typescript]
+    severity: ERROR
+    message: Keep TLS certificate verification enabled.
+    pattern-either:
+      - pattern: 'process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0"'
+      - pattern: '{ ..., rejectUnauthorized: false, ... }'

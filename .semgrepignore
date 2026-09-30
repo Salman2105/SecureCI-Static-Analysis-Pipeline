@@ -1,0 +1,7 @@
+# Dependencies and generated output are not project source.
+node_modules/
+dist/
+coverage/
+.venv/
+# Deliberately unsafe, non-executed rule fixtures are checked by security:test.
+semgrep/tests/

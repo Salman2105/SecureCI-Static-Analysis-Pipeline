@@ -1,0 +1,17 @@
+{
+  "name": "secureci-static-analysis-pipeline",
+  "version": "0.1.0",
+  "private": true,
+  "description": "An initial static-analysis foundation for a small Express and React project.",
+  "scripts": {
+    "setup": "npm ci --prefix backend && npm ci --prefix frontend",
+    "backend": "npm start --prefix backend",
+    "frontend": "npm run dev --prefix frontend",
+    "lint": "npm run lint --prefix backend && npm run lint --prefix frontend",
+    "test": "npm test --prefix backend",
+    "build": "npm run build --prefix frontend",
+    "security": "semgrep scan --config semgrep/secureci-rules.yml --error --strict --metrics=off .",
+    "security:test": "semgrep scan --test --config semgrep/secureci-rules.yml semgrep/tests/secureci-rules.js --metrics=off"
+  },
+  "engines": { "node": ">=22.14.0" }
+}
